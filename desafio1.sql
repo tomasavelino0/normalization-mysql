@@ -13,17 +13,17 @@ CREATE TABLE artistas(
 );
 
 CREATE TABLE albuns(
-	albun_id INT PRIMARY KEY AUTO_INCREMENT,
-    albun_name VARCHAR(100) NOT NULL,
-    artista_id INT NOT NULL,
-    FOREIGN KEY (artista_id) REFERENCES artistas(artista_id),
-    ano_lancamento INT NOT NULL
+   id_album INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+      album VARCHAR(45) NOT NULL,
+      ano_lancamento VARCHAR(10) NOT NULL,
+      id_artista INT NOT NULL,
+      FOREIGN KEY (id_artista) REFERENCES artistas (artista_id)
 );
 
 CREATE TABLE album_cancoes(
 	cancao_id INT PRIMARY KEY AUTO_INCREMENT,
     album_id INT NOT NULL,
-    FOREIGN KEY (album_id) REFERENCES albuns(albun_id),
+    FOREIGN KEY (album_id) REFERENCES albuns(id_album),
     cancao_name VARCHAR(100) NOT NULL,
     duracao_segundos INT NOT NULL
 );
@@ -38,20 +38,20 @@ CREATE TABLE usuario(
 );
 
 CREATE TABLE usuario_historico(
-	historico_id INT PRIMARY KEY AUTO_INCREMENT,
-    usuario INT NOT NULL,
-    FOREIGN KEY (usuario) REFERENCES usuario(usuario_id),
-    cancao_id INT NOT NULL,
-    FOREIGN KEY (cancao_id) REFERENCES album_cancoes(cancao_id),
-    data_reproducao DATETIME
+	data_reproducao DATETIME NOT NULL,
+      id_usuario INT NOT NULL,
+      id_musica INT NOT NULL,
+      PRIMARY KEY (id_usuario, id_musica),
+      FOREIGN KEY (id_usuario) REFERENCES usuario (usuario_id),
+      FOREIGN KEY (id_musica) REFERENCES album_cancoes (cancao_id)
 );
 
 CREATE TABLE usuario_seguindo(
-	follow_id INT PRIMARY KEY AUTO_INCREMENT,
-    usuario INT NOT NULL,
-    FOREIGN KEY (usuario) REFERENCES usuario(usuario_id),
-    artista_seguido INT NOT NULL,
-    FOREIGN KEY(artista_seguido) REFERENCES artistas(artista_id)
+	id_usuario INT NOT NULL,
+      id_artista INT NOT NULL,
+      PRIMARY KEY (id_usuario, id_artista),
+      FOREIGN KEY (id_usuario) REFERENCES usuario (usuario_id),
+      FOREIGN KEY (id_artista) REFERENCES artistas (artista_id)
 );
 
 USE SpotifyClone;
@@ -82,25 +82,17 @@ INSERT INTO usuario (usuario_name, idade, plano, data_assinatura)
     ('Judith Butler', 45, 4, '2020-05-13'),
     ('Jorge Amado', 58, 4, '2017-02-17');
 
-INSERT INTO albuns(albun_name,ano_lancamento,artista_id) VALUES
-('Renaissance', '2022', 1),
-('Jazz', '1978', 2),
-('Hot Space', '1982', 2),
-('Falso Brilhante', '1998', 3),
-('Vento de Maio', '2001', 3),
-('QVVJFA?', '2003', 4),
-('Somewhere Far Beyond', '2007', 5),
-('I Put A Spell On You', '2012', 6);
 
-INSERT INTO albuns(albun_name,ano_lancamento,artista_id) VALUES
-('Renaissance', '2022', 1),
-('Jazz', '1978', 2),
-('Hot Space', '1982', 2),
-('Falso Brilhante', '1998', 3),
-('Vento de Maio', '2001', 3),
-('QVVJFA?', '2003', 4),
-('Somewhere Far Beyond', '2007', 5),
-('I Put A Spell On You', '2012', 6);
+INSERT INTO albuns (album, ano_lancamento, id_artista)
+  VALUES
+    ('Renaissance', '2022', 1),
+    ('Jazz', '1978', 2),
+    ('Hot Space', '1982', 2),
+    ('Falso Brilhante', '1998', 3),
+    ('Vento de Maio', '2001', 3),
+    ('QVVJFA?', '2003', 4),
+    ('Somewhere Far Beyond', '2007', 5),
+    ('I Put A Spell On You', '2012', 6);
 
 INSERT INTO album_cancoes(cancao_name,duracao_segundos,album_id) VALUES
 ('BREAK MY SOUL', 279, 1),
@@ -114,7 +106,7 @@ INSERT INTO album_cancoes(cancao_name,duracao_segundos,album_id) VALUES
 ('The Bard’s Song', 244, 7),
 ('Feeling Good', 100, 8);
 
-INSERT INTO usuario_historico(data_reproducao,usuario,cancao_id) VALUES
+INSERT INTO usuario_historico(data_reproducao,id_usuario, id_musica) VALUES
 ('2022-02-28 10:45:55', 1, 8),
 ('2020-05-02 05:30:35', 1, 2),
 ('2020-03-06 11:22:33', 1, 10),
@@ -132,25 +124,7 @@ INSERT INTO usuario_historico(data_reproducao,usuario,cancao_id) VALUES
 ('2022-02-24 21:14:22', 9, 9),
 ('2015-12-13 08:30:22', 10, 3);
 
-INSERT INTO usuario_historico(data_reproducao,usuario, cancao_id) VALUES
-('2022-02-28 10:45:55', 1, 8),
-('2020-05-02 05:30:35', 1, 2),
-('2020-03-06 11:22:33', 1, 10),
-('2022-08-05 08:05:17', 2, 10),
-('2020-01-02 07:40:33', 2, 7),
-('2020-11-13 16:55:13', 3, 10),
-('2020-12-05 18:38:30', 3, 2),
-('2021-08-15 17:10:10', 4, 8),
-('2022-01-09 01:44:33', 5, 8),
-('2020-08-06 15:23:43', 5, 5),
-('2017-01-24 00:31:17', 6, 7),
-('2017-10-12 12:35:20', 6, 1),
-('2011-12-15 22:30:49', 7, 4),
-('2012-03-17 14:56:41', 8, 4),
-('2022-02-24 21:14:22', 9, 9),
-('2015-12-13 08:30:22', 10, 3);
-
-INSERT INTO usuario_seguindo(usuario,artista_seguido) VALUES
+INSERT INTO usuario_seguindo(id_usuario,id_artista) VALUES
 (1, 1),
     (1, 2),
     (1, 3),
