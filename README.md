@@ -43,5 +43,3 @@ Neste projeto você irá:
 - [x] 11 - Crie uma query que altere o nome de algumas músicas e as ordene em ordem alfabética decrescente se baseando em alguns critérios.
 
 Burndown Chart - É uma representação gráfica do trabalho a ser feito em relação ao tempo estimado. Permite que você visualize a evolução do trabalho graficamente. Para visualizar o andamento do projeto, basta ir dando um check a cada conclusão de requisito.
-
-[Burndown Chart do Docker Todo List](https://docs.google.com/spreadsheets/d/1JG0Bg-6bVG2IDaVjJUOcupWnrrB_TUO3kJyCCUlJ7I4/edit#gid=957745500)
